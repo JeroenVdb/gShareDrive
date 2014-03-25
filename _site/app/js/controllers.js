@@ -8,7 +8,8 @@ angular.module('myApp.controllers', [])
 		$scope.name = "jeroen";
 	}])
 	.controller('fileListController', ['$scope', function($scope) {
-		$scope.name = 'jeroen2'
+		$scope.name = 'jeroen2';
+		$scope.items = [];
 	}])
 	.controller('MyCtrl1', [function() {
 
@@ -73,15 +74,16 @@ var gComm = (function () {
 
 		request.execute(function(resp) {
 
-			// var scope = angular.element(document.getElementById('fileListController')).scope();
-		 //    scope.$apply(function(){
-		 //        scope.name = 'Superhero';
-		 //    })
+			var scope = angular.element(document.getElementById('fileListController')).scope();
+		    scope.$apply(function(){
+		        scope.name = 'Superhero';
+		        // scope.items = resp
+		    })
 
-			// for(var i = 0; i < resp.items.length; i++) {
-			// 	var fileId = resp.items[i].id;
-			// 	getFileData(fileId)
-			// }
+			for(var i = 0; i < resp.items.length; i++) {
+				var fileId = resp.items[i].id;
+				getFileData(fileId)
+			}
 		});
 	}
 
@@ -92,12 +94,22 @@ var gComm = (function () {
 		});
 
 		request.execute(function(resp) {
-			console.log('Title: ' + resp.thumbnailLink);
+
+			// if (resp.hasOwnProperty('thumbnailLink')) {
+			// 	var img = new Image();  ///params are optional 
+			// 	img.src = resp.thumbnailLink;
+			// 	document.body.appendChild(img);
+			// }
+
+			console.log(resp);
 
 			if (resp.hasOwnProperty('thumbnailLink')) {
-				var img = new Image();  ///params are optional 
-				img.src = resp.thumbnailLink;
-				document.body.appendChild(img);
+				var scope = angular.element(document.getElementById('fileListController')).scope();
+				scope.$apply(function(){
+					scope.items.push(resp);
+				})
+
+				console.log(scope.items);
 			}
 
 		});
