@@ -2,37 +2,30 @@
 
 /* Controllers */
 
-// angular.module('myApp.controllers', []).
-// 	controller('mainController', [function($scope) {
-// 		console.log("jeroen");
-// 		$scope.name = "jeroen";
-// 	}])
-// 	.controller('fileListController', [function() {
-
-// 	}])
-// 	.controller('MyCtrl1', [function() {
-
-// 	}])
-// 	.controller('MyCtrl2', [function() {
-
-// 	}]);
-
-var myApp = angular.module('myApp', []);
-
-myApp.controller('mainController', function ($scope, $http, $interval) {
-
-	
-
+angular.module('myApp.controllers', [])
+	.controller('mainController', ['$scope', function($scope) {
+		console.log("jeroen");
 		$scope.name = "jeroen";
-			
+	}])
+	.controller('fileListController', ['$scope', function($scope) {
+		$scope.name = 'jeroen2'
+	}])
+	.controller('MyCtrl1', [function() {
 
-});
+	}])
+	.controller('MyCtrl2', [function() {
 
-myApp.controller('fileListController', function ($scope, $http, $interval) {
+	}]);
 
-	$scope.name = "jeroen";
+// var myApp = angular.module('myApp', []);
 
-});
+// myApp.controller('MyCtrl1', function ($scope, $http, $interval) {
+// 	$scope.name = "jeroen";
+// });
+
+// myApp.controller('MyCtrl2', function ($scope, $http, $interval) {
+// 	$scope.name = "jeroen2";
+// });
 
 var gComm = (function () {
 
@@ -79,10 +72,16 @@ var gComm = (function () {
 		}); 
 
 		request.execute(function(resp) {
-			for(var i = 0; i < resp.items.length; i++) {
-				var fileId = resp.items[i].id;
-				getFileData(fileId)
-			}
+
+			// var scope = angular.element(document.getElementById('fileListController')).scope();
+		 //    scope.$apply(function(){
+		 //        scope.name = 'Superhero';
+		 //    })
+
+			// for(var i = 0; i < resp.items.length; i++) {
+			// 	var fileId = resp.items[i].id;
+			// 	getFileData(fileId)
+			// }
 		});
 	}
 
@@ -105,7 +104,8 @@ var gComm = (function () {
 	}
 
 	return {
-		checkAuth:checkAuth
+		checkAuth:checkAuth,
+		getShareFolder:getShareFolder
 	};
 
 })();
