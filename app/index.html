@@ -24,8 +24,8 @@
 
 	</script>
 </head>
-<body id="body" ng-controller="mainController">
-	<h1>name {{name}}</h1>
+<body id="mainController" ng-controller="mainController">
+	<h1>gShareDrive <span ngShow="name">of {{name}}</span></h1>
 	<ul class="menu">
 		<li><a href="#/view1">view1</a></li>
 		<li><a href="#/view2">view2</a></li>
@@ -46,6 +46,7 @@
 <script src="js/filters.js"></script>
 <script src="js/directives.js"></script>
 
-<script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+<script src="lib/zeroClipboard/ZeroClipboard.js"></script>
 </body>
 </html>

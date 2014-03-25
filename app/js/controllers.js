@@ -4,11 +4,8 @@
 
 angular.module('myApp.controllers', [])
 	.controller('mainController', ['$scope', function($scope) {
-		console.log("jeroen");
-		$scope.name = "jeroen";
 	}])
 	.controller('fileListController', ['$scope', function($scope) {
-		$scope.name = 'jeroen2';
 		$scope.items = [];
 	}])
 	.controller('MyCtrl1', [function() {
@@ -43,7 +40,7 @@ var gComm = (function () {
 
 		if (authResult) {
 			// Access token has been successfully retrieved, requests can be sent to the API
-			gapi.client.load('drive', 'v2', getShareFolder);
+			gapi.client.load('drive', 'v2', authCallback);
 		} else {
 			// No access token could be retrieved, force the authorization flow.
 			gapi.auth.authorize(
@@ -51,6 +48,13 @@ var gComm = (function () {
 				handleAuthResult
 			);
 		}
+	}
+
+	function authCallback() {
+
+		getShareFolder();
+		getUserInfo();
+
 	}
 
 	function getShareFolder() {
@@ -74,12 +78,6 @@ var gComm = (function () {
 
 		request.execute(function(resp) {
 
-			var scope = angular.element(document.getElementById('fileListController')).scope();
-		    scope.$apply(function(){
-		        scope.name = 'Superhero';
-		        // scope.items = resp
-		    })
-
 			for(var i = 0; i < resp.items.length; i++) {
 				var fileId = resp.items[i].id;
 				getFileData(fileId)
@@ -95,29 +93,34 @@ var gComm = (function () {
 
 		request.execute(function(resp) {
 
-			// if (resp.hasOwnProperty('thumbnailLink')) {
-			// 	var img = new Image();  ///params are optional 
-			// 	img.src = resp.thumbnailLink;
-			// 	document.body.appendChild(img);
-			// }
-
-			console.log(resp);
-
 			if (resp.hasOwnProperty('thumbnailLink')) {
 				var scope = angular.element(document.getElementById('fileListController')).scope();
 				scope.$apply(function(){
 					scope.items.push(resp);
 				})
 
-				console.log(scope.items);
+				var client = new ZeroClipboard(document.getElementsByTagName('button'));
 			}
 
 		});
 	}
 
+	function getUserInfo() {
+
+		var request = gapi.client.drive.about.get();
+		request.execute(function(resp) {
+			var scope = angular.element(document.getElementById('mainController')).scope();
+			scope.$apply(function(){
+				scope.name = resp.name
+			})
+		});
+
+	}
+
 	return {
 		checkAuth:checkAuth,
-		getShareFolder:getShareFolder
+		getShareFolder:getShareFolder,
+		getUserInfo:getUserInfo
 	};
 
 })();

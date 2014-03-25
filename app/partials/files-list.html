@@ -1,8 +1,8 @@
 <div id="fileListController" ng-controller="fileListController">
-<h1>List of files shared: {{name}}</h1>
 	<ul class="files">
 		<li class="files__file" ng-repeat="item in items">
 			<img src="{{ item.thumbnailLink }}" alt="">
+			<button id="my-button" data-clipboard-text="https://drive.google.com/uc?export=view&id={{ item.id }}" title="Click to copy to clipboard.">Copy to Clipboard</button>
 		</li>
 	</ul>
 </div>
