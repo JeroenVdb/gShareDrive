@@ -1,8 +1,46 @@
 <div id="fileListController" ng-controller="fileListController">
-	<ul class="files">
+	<!-- <ul class="files">
 		<li class="files__file" ng-repeat="item in items">
+			<h6>{{ item.title }}</h6>
 			<img src="{{ item.thumbnailLink }}" alt="">
-			<button id="my-button" data-clipboard-text="https://drive.google.com/uc?export=view&id={{ item.id }}" title="Click to copy to clipboard.">Copy to Clipboard</button>
+			<button id="my-button" data-clipboard-text="https://drive.google.com/uc?export=view&id={{ item.id }}" title="Click to copy to clipboard.">Copy VIEW url</button>
+			<button id="my-button" data-clipboard-text="https://drive.google.com/uc?export=download&id={{ item.id }}" title="Click to copy to clipboard.">Copy DOWNLOAD url</button>
+
 		</li>
-	</ul>
+	</ul> -->
+
+	<table class="table table-hover table-striped">
+		<thead>
+			<tr>
+				<th>
+					name
+				</th>
+				<th>
+					image
+				</th>
+				<th>
+					1
+				</th>
+				<th>
+					2
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in items">
+				<td>
+					{{ item.title }}
+				</td>
+				<td>
+					<img src="{{ item.thumbnailLink }}" alt="">
+				</td>
+				<td>
+					<button id="my-button" data-clipboard-text="https://drive.google.com/uc?export=view&id={{ item.id }}" title="Click to copy to clipboard.">Copy VIEW url</button>
+				</td>
+				<td>
+					<button id="my-button" data-clipboard-text="https://drive.google.com/uc?export=download&id={{ item.id }}" title="Click to copy to clipboard.">Copy DOWNLOAD url</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>

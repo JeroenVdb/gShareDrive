@@ -73,7 +73,8 @@ var gComm = (function () {
 	function getFilesFromSharedFolder(folderId) {
 
 		var request = gapi.client.drive.children.list({
-			'folderId' : folderId
+			'folderId' : folderId,
+			'q': 'trashed = false'
 		}); 
 
 		request.execute(function(resp) {
