@@ -9,36 +9,38 @@
 		</li>
 	</ul> -->
 
-	<table class="table table-hover table-striped">
+	<table class="table table-hover table-striped file-list">
 		<thead>
 			<tr>
-				<th>
-					name
-				</th>
-				<th>
-					image
-				</th>
-				<th>
-					1
-				</th>
-				<th>
-					2
-				</th>
+				<th>&nbsp;</th>
+				<th>Name</th>
+				<th>&nbsp;</th>
+				<th>Copy url for...</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="item in items | filter:search">
-				<td>
-					{{ item.title }}
+			<tr class="file-list__row" ng-repeat="item in items | filter:search">
+				<td class="file-list__icon">
+					<img src="{{ item.iconLink }}" alt="Icon for {{ item.mimeType }}">
 				</td>
-				<td>
-					<img src="{{ item.thumbnailLink }}" alt="">
+				<td class="file-list__name">
+					<a href="{{ item.alternateLink }}"></a><b>{{ item.title }}</b>
 				</td>
-				<td>
-					<button id="my-button" data-clipboard-text="https://drive.google.com/uc?export=view&id={{ item.id }}" title="Click to copy to clipboard.">Copy VIEW url</button>
+				<td class="file-list__thumbnail">
+					<img ng-if="hasThumbnailLink(item)" src="{{ item.thumbnailLink }}" alt="Thumbnail of {{ item.title }}">
 				</td>
-				<td>
-					<button id="my-button" data-clipboard-text="https://drive.google.com/uc?export=download&id={{ item.id }}" title="Click to copy to clipboard.">Copy DOWNLOAD url</button>
+				<td class="file-list__options">
+					<div class="">
+						<button id="my-button" type="button" class="btn btn-default btn-sm" data-clipboard-text="https://drive.google.com/uc?export=view&id={{ item.id }}">
+							<span class="glyphicon glyphicon-share"></span> Original
+						</button>
+						<button id="my-button" type="button" class="btn btn-default btn-sm" data-clipboard-text="{{ item.alternateLink }}">
+							<span class="glyphicon glyphicon-eye-open"></span> Google Viewer
+						</button>
+						<button id="my-button" type="button" class="btn btn-default btn-sm" data-clipboard-text="https://drive.google.com/uc?export=download&id={{ item.id }}">
+							<span class="glyphicon glyphicon-download-alt"></span> Download
+						</button>
+					</div>
 				</td>
 			</tr>
 		</tbody>

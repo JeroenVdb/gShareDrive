@@ -8,6 +8,10 @@ angular.module('myApp.controllers', [])
 	}])
 	.controller('fileListController', ['$scope', function($scope) {
 		$scope.items = [];
+
+		$scope.hasThumbnailLink = function(item) {
+			return item.hasOwnProperty('thumbnailLink')
+		}
 	}])
 	.controller('MyCtrl1', [function() {
 
@@ -95,30 +99,32 @@ var gComm = (function () {
 	}
 
 	function getFilesData(files) {
-		for(var i = 0; i < files.length; i++) {
-			var fileId = files[i].id;
-			getFileData(fileId)
-		}
-	}
-
-	function getFileData(fileId) {
 		
-		var request = gapi.client.drive.files.get({
-			'fileId': fileId
-		});
+		for(var i = 0; i < files.length; i++) {
+			
+			var fileId = files[i].id,
+				requestNbr = 0,
+				request = gapi.client.drive.files.get({
+					'fileId': fileId
+				});
 
-		request.execute(function(resp) {
+			request.execute(function(resp) {
 
-			if (resp.hasOwnProperty('thumbnailLink')) {
+
 				var scope = angular.element(document.getElementById('fileListController')).scope();
 				scope.$apply(function(){
 					scope.items.push(resp);
 				})
 
-				var client = new ZeroClipboard(document.getElementsByTagName('button'));
-			}
+				requestNbr++;
+				if (requestNbr === files.length) {
+					var client = new ZeroClipboard(document.getElementsByTagName('button'));
+				}
 
-		});
+			});
+			
+		}
+		
 	}
 
 	function getUserInfo() {
