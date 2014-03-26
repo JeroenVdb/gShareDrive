@@ -4,6 +4,7 @@
 
 angular.module('myApp.controllers', [])
 	.controller('mainController', ['$scope', function($scope) {
+		$scope.name = false;
 	}])
 	.controller('fileListController', ['$scope', function($scope) {
 		$scope.items = [];
@@ -59,31 +60,45 @@ var gComm = (function () {
 
 	function getShareFolder() {
 
-		var request = gapi.client.drive.files.list({
-			'q': "title = 'Share'"
-		});
+		var files = [],
+			request = gapi.client.drive.files.list({
+				'q': "title = 'Share'"
+			});
 
 		request.execute(function(resp) {
-			var folderId = resp.items[0].id;
+			var folderId = resp.items[0].id,
+				parameters = {
+					'folderId' : folderId,
+					'q': 'trashed = false'
+				}
 
-			getFilesFromSharedFolder(folderId);
+			getFilesFromSharedFolder(folderId, files, parameters);
 		});
 	}
 
-	function getFilesFromSharedFolder(folderId) {
+	function getFilesFromSharedFolder(folderId, files, parameters) {
 
-		var request = gapi.client.drive.children.list({
-			'folderId' : folderId,
-			'q': 'trashed = false'
-		}); 
+		var request = gapi.client.drive.children.list(parameters); 
 
 		request.execute(function(resp) {
 
-			for(var i = 0; i < resp.items.length; i++) {
-				var fileId = resp.items[i].id;
-				getFileData(fileId)
+			files = files.concat(resp.items);
+
+			if (resp.nextPageToken) {
+				parameters.pageToken = resp.nextPageToken;
+				getFilesFromSharedFolder(folderId, files, parameters)
+			} else {
+				getFilesData(files);
 			}
+
 		});
+	}
+
+	function getFilesData(files) {
+		for(var i = 0; i < files.length; i++) {
+			var fileId = files[i].id;
+			getFileData(fileId)
+		}
 	}
 
 	function getFileData(fileId) {
