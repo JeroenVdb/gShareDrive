@@ -7,7 +7,13 @@ angular.module('myApp.controllers', [])
 		$scope.name = false;
 	}])
 	.controller('fileListController', ['$scope', function($scope) {
+		
 		$scope.items = [];
+		$scope.progress = 0;
+
+		$scope.isInProgress = function(progress) {
+			return progress !== 100
+		}
 
 		$scope.hasThumbnailLink = function(item) {
 			return item.hasOwnProperty('thumbnailLink')
@@ -70,13 +76,21 @@ var gComm = (function () {
 			});
 
 		request.execute(function(resp) {
-			var folderId = resp.items[0].id,
-				parameters = {
-					'folderId' : folderId,
-					'q': 'trashed = false'
-				}
 
-			getFilesFromSharedFolder(folderId, files, parameters);
+			if (resp.hasOwnProperty('items')) {
+
+				var folderId = resp.items[0].id,
+					parameters = {
+						'folderId' : folderId,
+						'q': 'trashed = false'
+					}
+
+				getFilesFromSharedFolder(folderId, files, parameters);
+
+			} else {
+				console.log("nu such folder");
+			}
+			
 		});
 	}
 
@@ -110,13 +124,14 @@ var gComm = (function () {
 
 			request.execute(function(resp) {
 
+				requestNbr++;
 
 				var scope = angular.element(document.getElementById('fileListController')).scope();
 				scope.$apply(function(){
 					scope.items.push(resp);
+					scope.progress = (requestNbr / files.length) * 100;
 				})
 
-				requestNbr++;
 				if (requestNbr === files.length) {
 					var client = new ZeroClipboard(document.getElementsByTagName('button'));
 				}

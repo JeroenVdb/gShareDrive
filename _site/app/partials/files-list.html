@@ -1,13 +1,13 @@
 <div id="fileListController" ng-controller="fileListController">
-	<!-- <ul class="files">
-		<li class="files__file" ng-repeat="item in items">
-			<h6>{{ item.title }}</h6>
-			<img src="{{ item.thumbnailLink }}" alt="">
-			<button id="my-button" data-clipboard-text="https://drive.google.com/uc?export=view&id={{ item.id }}" title="Click to copy to clipboard.">Copy VIEW url</button>
-			<button id="my-button" data-clipboard-text="https://drive.google.com/uc?export=download&id={{ item.id }}" title="Click to copy to clipboard.">Copy DOWNLOAD url</button>
-
-		</li>
-	</ul> -->
+	
+	<div class="well" ng-if="isInProgress(progress)">
+		<h4>Loading shared files</h4>
+		<div class="progress progress-striped">
+			<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
+				<span class="sr-only">{{ progress }}% Complete</span>
+			</div>
+		</div>
+	</div>
 
 	<table class="table table-hover table-striped file-list">
 		<thead>
@@ -24,7 +24,9 @@
 					<img src="{{ item.iconLink }}" alt="Icon for {{ item.mimeType }}">
 				</td>
 				<td class="file-list__name">
-					<a href="{{ item.alternateLink }}"></a><b>{{ item.title }}</b>
+					<a href="{{ item.alternateLink }}" target="_blank">
+						<b>{{ item.title }}</b>
+					</a>
 				</td>
 				<td class="file-list__thumbnail">
 					<img ng-if="hasThumbnailLink(item)" src="{{ item.thumbnailLink }}" alt="Thumbnail of {{ item.title }}">

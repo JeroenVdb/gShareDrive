@@ -2,8 +2,6 @@
 
 body {margin-top: 80px;}
 
-.file-list__thumbnail {width: 220px;}
-
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
