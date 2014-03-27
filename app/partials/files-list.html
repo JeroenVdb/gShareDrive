@@ -2,49 +2,40 @@
 	
 	<div class="well" ng-if="isInProgress(progress)">
 		<h4>Loading shared files</h4>
-		<div class="progress progress-striped">
-			<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
-				<span class="sr-only">{{ progress }}% Complete</span>
-			</div>
+		<div class="progress progress-striped active">
+			<div class="bar" style="width: {{ progress }}%;"></div>
 		</div>
 	</div>
 
-	<table class="table table-hover table-striped file-list">
-		<thead>
-			<tr>
-				<th>&nbsp;</th>
-				<th>Name</th>
-				<th>&nbsp;</th>
-				<th>Copy url for...</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr class="file-list__row" ng-repeat="item in items | filter:search">
-				<td class="file-list__icon">
-					<img src="{{ item.iconLink }}" alt="Icon for {{ item.mimeType }}">
-				</td>
-				<td class="file-list__name">
-					<a href="{{ item.alternateLink }}" target="_blank">
-						<b>{{ item.title }}</b>
-					</a>
-				</td>
-				<td class="file-list__thumbnail">
-					<img ng-if="hasThumbnailLink(item)" src="{{ item.thumbnailLink }}" alt="Thumbnail of {{ item.title }}">
-				</td>
-				<td class="file-list__options">
-					<div class="">
-						<button id="my-button" type="button" class="btn btn-default btn-sm" data-clipboard-text="https://drive.google.com/uc?export=view&id={{ item.id }}">
-							<span class="glyphicon glyphicon-share"></span> Original
-						</button>
-						<button id="my-button" type="button" class="btn btn-default btn-sm" data-clipboard-text="{{ item.alternateLink }}">
-							<span class="glyphicon glyphicon-eye-open"></span> Google Viewer
-						</button>
-						<button id="my-button" type="button" class="btn btn-default btn-sm" data-clipboard-text="https://drive.google.com/uc?export=download&id={{ item.id }}">
-							<span class="glyphicon glyphicon-download-alt"></span> Download
-						</button>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="card" ng-repeat="item in items | filter:search">
+		<div class="card-heading image">
+		<img src="{{ item.iconLink }}" alt="Icon for {{ item.mimeType }}">
+			<div class="card-heading-header">
+				<h3>{{ item.title }}</h3>
+				<span>{{ item.modifiedDate }}</span>
+			</div>
+		</div>
+		<div class="card-body">
+			<p>
+				{{ item.description }}
+			</p>
+		</div>
+		<div class="card-media">
+			<a class="card-media-container" href="#">
+				<img ng-if="hasThumbnailLink(item)" src="{{ item.thumbnailLink }}" alt="Thumbnail of {{ item.title }}">
+			</a>
+		</div>
+		<div class="card-actions">
+			<button id="my-button" type="button" class="btn" data-clipboard-text="https://drive.google.com/uc?export=view&id={{ item.id }}">
+				Original
+			</button>
+			<button id="my-button" type="button" class="btn" data-clipboard-text="{{ item.alternateLink }}">
+				Drive
+			</button>
+			<button id="my-button" type="button" class="btn" data-clipboard-text="https://drive.google.com/uc?export=download&id={{ item.id }}">
+				Download
+			</button>
+		</div>
+	</div>
+
 </div>

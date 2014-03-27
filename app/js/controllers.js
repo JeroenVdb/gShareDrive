@@ -134,6 +134,11 @@ var gComm = (function () {
 
 				if (requestNbr === files.length) {
 					var client = new ZeroClipboard(document.getElementsByTagName('button'));
+
+					var container = document.querySelector('#fileListController');
+					var msnry = new Masonry( container, {
+						itemSelector: '.card'
+					});
 				}
 
 			});
