@@ -15,4 +15,4 @@ Quickly share items from your Google Drive folder to your friends without using 
 
 ## Thanks to
 Angular for providing [Angular seed](https://github.com/angular/angular-seed) project. More info about running and testing this project you can find there.
-[Bootstrap](http://getbootstrap.com/) and [Glyphicons](http://glyphicons.com/)
+[Bootstrap](http://getbootstrap.com/) and [Bootplus](http://aozora.github.io/bootplus/)
